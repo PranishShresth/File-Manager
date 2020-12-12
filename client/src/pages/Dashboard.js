@@ -12,7 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import mime from "mime-types";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   content: {
@@ -49,15 +49,6 @@ export default function Dashboard() {
         {files.length > 0 ? (
           <FileTable files={files} />
         ) : (
-          // <Grid item xs={12} md={4} style={{ textAlign: "center" }}>
-          //   <DescriptionIcon style={{ fontSize: 100 }} />
-          //   <Typography>{file.aliases}</Typography>
-
-          //   <a href={`http://localhost:5000/api/file/${file.filename}`}>
-          //     <GetAppIcon />
-          //   </a>
-          // </Grid>
-
           <h4>There are currently no files</h4>
         )}
       </div>
@@ -67,6 +58,16 @@ export default function Dashboard() {
 
 function FileTable({ files }) {
   const classes = useStyles();
+  const downloadFile = async (filename, alias) => {
+    const data = await axios.get(`/api/file/${filename}`);
+    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.setAttribute("download", alias); //any other extension
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
 
   return (
     <TableContainer component={Paper} style={{ overflowX: "auto" }}>
@@ -102,12 +103,13 @@ function FileTable({ files }) {
                 {new Date(file.uploadDate).toLocaleDateString("en-US")}
               </TableCell>
               <TableCell align="right">
-                <a
-                  href={`http://${window.location.hostname}:5000/api/file/${file.filename}`}
-                  download
+                <Button
+                  onClick={() => {
+                    downloadFile(file.filename, file.aliases);
+                  }}
                 >
                   <GetAppIcon />
-                </a>
+                </Button>
               </TableCell>
             </TableRow>
           ))}
