@@ -2,6 +2,8 @@ const express = require("express");
 const User = require("./../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var validator = require("email-validator");
+
 module.exports = {
   /**
    *@route POST /api/user/login:
@@ -66,6 +68,7 @@ module.exports = {
   registerUser: (req, res) => {
     try {
       const { username, email, password, confirmPassword } = req.body;
+
       if (!email || !password || !confirmPassword)
         return res
           .status(400)
@@ -74,6 +77,11 @@ module.exports = {
         return res.status(400).json({
           msg: "The password needs to be at least 5 characters long.",
         });
+      if (!validator.validate(email)) {
+        return res.status(400).json({
+          msg: "Email not valid",
+        });
+      }
 
       User.findOne({ email }, function (err, user) {
         if (user) {

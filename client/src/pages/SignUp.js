@@ -103,6 +103,7 @@ function SignUp() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            type="email"
             autoFocus
             onChange={handleInputChange}
           />
