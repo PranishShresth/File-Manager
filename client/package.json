@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "hoist-non-react-statics": "^3.3.2",
+    "js-file-download": "^0.4.12",
     "jwt-decode": "^3.1.2",
     "mime-types": "^2.1.27",
     "notistack": "^1.0.2",

@@ -39,7 +39,10 @@ module.exports = {
           err: "No file exists",
         });
       }
-
+      res.set({
+        "Content-Type": file.contentType,
+        "Content-Disposition": "attachment; filename=" + file.aliases,
+      });
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
     });
