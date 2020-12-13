@@ -12,7 +12,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import mime from "mime-types";
-import download from "downloadjs";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
